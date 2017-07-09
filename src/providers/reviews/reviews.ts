@@ -15,11 +15,12 @@ import {DOCUMENT} from '@angular/platform-browser';
 export class ReviewsProvider {
 
   data: any;
-  domain: string;
+  reviews_url: string;
 
   constructor(@Inject(DOCUMENT) private document, public http: Http) {
     console.log('Hello ReviewsProvider Provider1');
-    this.domain = this.document.location.hostname;
+    let domain = this.document.location.hostname;
+    this.reviews_url = 'http://'+ domain +'/api/reviews'
   }
 
   getReviews(){
@@ -30,7 +31,7 @@ export class ReviewsProvider {
 
     return new Promise(resolve => {
 
-      this.http.get('http://'+this.domain+'/api/reviews')
+      this.http.get(this.reviews_url)
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
@@ -45,7 +46,7 @@ export class ReviewsProvider {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    this.http.post('http://localhost:8080/api/reviews', JSON.stringify(review), {headers: headers})
+    this.http.post(this.reviews_url, JSON.stringify(review), {headers: headers})
       .subscribe(res => {
         console.log(res.json());
       });
@@ -54,7 +55,7 @@ export class ReviewsProvider {
 
   deleteReview(id){
 
-    this.http.delete('http://localhost:8080/api/reviews/' + id).subscribe((res) => {
+    this.http.delete(this.reviews_url+ '/' + id).subscribe((res) => {
       console.log(res.json());
     });
 

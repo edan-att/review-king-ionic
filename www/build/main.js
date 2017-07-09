@@ -121,7 +121,8 @@ var ReviewsProvider = (function () {
         this.document = document;
         this.http = http;
         console.log('Hello ReviewsProvider Provider1');
-        this.domain = this.document.location.hostname;
+        var domain = this.document.location.hostname;
+        this.reviews_url = 'http://' + domain + '/api/reviews';
     }
     ReviewsProvider.prototype.getReviews = function () {
         var _this = this;
@@ -129,7 +130,7 @@ var ReviewsProvider = (function () {
             return Promise.resolve(this.data);
         }
         return new Promise(function (resolve) {
-            _this.http.get('http://' + _this.domain + '/api/reviews')
+            _this.http.get(_this.reviews_url)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -140,13 +141,13 @@ var ReviewsProvider = (function () {
     ReviewsProvider.prototype.createReview = function (review) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
         headers.append('Content-Type', 'application/json');
-        this.http.post('http://localhost:8080/api/reviews', JSON.stringify(review), { headers: headers })
+        this.http.post(this.reviews_url, JSON.stringify(review), { headers: headers })
             .subscribe(function (res) {
             console.log(res.json());
         });
     };
     ReviewsProvider.prototype.deleteReview = function (id) {
-        this.http.delete('http://localhost:8080/api/reviews/' + id).subscribe(function (res) {
+        this.http.delete(this.reviews_url + '/' + id).subscribe(function (res) {
             console.log(res.json());
         });
     };
@@ -155,10 +156,9 @@ var ReviewsProvider = (function () {
 ReviewsProvider = reviews___decorate([
     reviews___WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */](),
     __param(0, reviews___WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Inject */](__WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["b" /* DOCUMENT */])),
-    reviews___metadata("design:paramtypes", [Object, typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    reviews___metadata("design:paramtypes", [Object, __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
 ], ReviewsProvider);
 
-var _a;
 //# sourceMappingURL=reviews.js.map
 // CONCATENATED MODULE: ./src/pages/home/home.ts
 /* harmony import */ var home___WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
