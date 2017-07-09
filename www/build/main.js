@@ -92,6 +92,7 @@ AddReviewPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__(2);
 var reviews___decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -101,6 +102,10 @@ var reviews___decorate = (this && this.__decorate) || function (decorators, targ
 var reviews___metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
 
 
 
@@ -112,9 +117,11 @@ var reviews___metadata = (this && this.__metadata) || function (k, v) {
   for more info on providers and Angular DI.
 */
 var ReviewsProvider = (function () {
-    function ReviewsProvider(http) {
+    function ReviewsProvider(document, http) {
+        this.document = document;
         this.http = http;
-        console.log('Hello ReviewsProvider Provider');
+        console.log('Hello ReviewsProvider Provider1');
+        this.domain = this.document.location.hostname;
     }
     ReviewsProvider.prototype.getReviews = function () {
         var _this = this;
@@ -122,7 +129,7 @@ var ReviewsProvider = (function () {
             return Promise.resolve(this.data);
         }
         return new Promise(function (resolve) {
-            _this.http.get('http://localhost:8080/api/reviews')
+            _this.http.get('http://' + _this.domain + '/api/reviews')
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -147,9 +154,11 @@ var ReviewsProvider = (function () {
 }());
 ReviewsProvider = reviews___decorate([
     reviews___WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */](),
-    reviews___metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    __param(0, reviews___WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Inject */](__WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["b" /* DOCUMENT */])),
+    reviews___metadata("design:paramtypes", [Object, typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], ReviewsProvider);
 
+var _a;
 //# sourceMappingURL=reviews.js.map
 // CONCATENATED MODULE: ./src/pages/home/home.ts
 /* harmony import */ var home___WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
@@ -177,6 +186,7 @@ var home_HomePage = (function () {
         var _this = this;
         this.reviewService.getReviews().then(function (data) {
             console.log(data);
+            console.log('12312');
             _this.reviews = data;
         });
     };
@@ -206,10 +216,9 @@ home_HomePage = home___decorate([
     home___WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */]({
         selector: 'home-page',template:/*ion-inline-start:"/Users/ebinshtok/git_work/review-king/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar transparent>\n    <ion-title>\n      Review King\n    </ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="addReview()"><ion-icon name="add"></ion-icon></button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-list no-lines>\n\n    <ion-item-sliding *ngFor="let review of reviews">\n\n      <ion-item>\n\n        <ion-avatar item-left>\n          <img src="https://api.adorable.io/avatars/75/{{review.title}}">\n        </ion-avatar>\n\n        <h2>{{review.title}}</h2>\n        <p>{{review.description}}</p>\n\n        <ion-icon *ngIf="review.rating < 50" danger name="sad"></ion-icon>\n        <ion-icon *ngIf="review.rating >= 50" secondary name="happy"></ion-icon>\n        {{review.rating}}\n\n      </ion-item>\n\n      <ion-item-options>\n        <button ion-button color="danger" (click)="deleteReview(review)">\n          <ion-icon name="trash"></ion-icon>\n          Delete\n        </button>\n      </ion-item-options>\n    </ion-item-sliding>\n\n  </ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/ebinshtok/git_work/review-king/src/pages/home/home.html"*/
     }),
-    home___metadata("design:paramtypes", [typeof (_a = typeof home___WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && home___WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof ReviewsProvider !== "undefined" && ReviewsProvider) === "function" && _b || Object, typeof (_c = typeof home___WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */] !== "undefined" && home___WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]) === "function" && _c || Object])
+    home___metadata("design:paramtypes", [home___WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], ReviewsProvider, home___WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]])
 ], home_HomePage);
 
-var _a, _b, _c;
 //# sourceMappingURL=home.js.map
 // CONCATENATED MODULE: ./src/app/app.component.ts
 /* harmony import */ var app_component___WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);

@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Headers} from '@angular/http';
+import {DOCUMENT} from '@angular/platform-browser';
+
 
 /*
   Generated class for the ReviewsProvider provider.
@@ -13,9 +15,11 @@ import {Headers} from '@angular/http';
 export class ReviewsProvider {
 
   data: any;
+  domain: string;
 
-  constructor(public http: Http) {
-    console.log('Hello ReviewsProvider Provider');
+  constructor(@Inject(DOCUMENT) private document, public http: Http) {
+    console.log('Hello ReviewsProvider Provider1');
+    this.domain = this.document.location.hostname;
   }
 
   getReviews(){
@@ -26,7 +30,7 @@ export class ReviewsProvider {
 
     return new Promise(resolve => {
 
-      this.http.get('http://localhost:8080/api/reviews')
+      this.http.get('http://'+this.domain+'/api/reviews')
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
