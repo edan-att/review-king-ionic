@@ -20,7 +20,7 @@ export class ReviewsProvider {
   constructor(@Inject(DOCUMENT) private document, public http: Http) {
     console.log('Hello ReviewsProvider Provider1');
     let domain = this.document.location.hostname;
-    this.reviews_url = 'http://'+ domain +'/api/reviews'
+    this.reviews_url = 'http://wwwschool.org/api/reviews'
   }
 
   getReviews(){

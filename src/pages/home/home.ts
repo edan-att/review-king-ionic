@@ -19,7 +19,6 @@ export class HomePage {
 
     this.reviewService.getReviews().then((data) => {
       console.log(data);
-      console.log('12312');
       this.reviews = data;
     });
 
